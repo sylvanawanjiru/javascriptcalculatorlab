@@ -11,40 +11,64 @@ function saveToHistory(number1, number2, operator, result) {
         operator: operator,
         result: result
     };
-
     calculationHistory.push(entry);
 }
 
-// 3) Basic arithmetic functions
+// 3) Function to validate inputs
+function checkNumbers(a, b) {
+    const num1 = Number(a);
+    const num2 = Number(b);
+
+    if (isNaN(num1) || isNaN(num2)) {
+        console.log("Error: Both inputs must be valid numbers!");
+        return false;
+    }
+    return [num1, num2];
+}
+
+// 4) Basic arithmetic functions with validation
 function add(a, b) {
-    const result = a + b;
-    saveToHistory(a, b, "+", result);
+    const numbers = checkNumbers(a, b);
+    if (!numbers) return;
+
+    const result = numbers[0] + numbers[1];
+    saveToHistory(numbers[0], numbers[1], "+", result);
     console.log("Result:", result);
 }
 
 function subtract(a, b) {
-    const result = a - b;
-    saveToHistory(a, b, "-", result);
+    const numbers = checkNumbers(a, b);
+    if (!numbers) return;
+
+    const result = numbers[0] - numbers[1];
+    saveToHistory(numbers[0], numbers[1], "-", result);
     console.log("Result:", result);
 }
 
 function multiply(a, b) {
-    const result = a * b;
-    saveToHistory(a, b, "*", result);
+    const numbers = checkNumbers(a, b);
+    if (!numbers) return;
+
+    const result = numbers[0] * numbers[1];
+    saveToHistory(numbers[0], numbers[1], "*", result);
     console.log("Result:", result);
 }
 
 function divide(a, b) {
-    if (b === 0) {
-        console.log("Error: Cannot divide by zero.");
+    const numbers = checkNumbers(a, b);
+    if (!numbers) return;
+
+    if (numbers[1] === 0) {
+        console.log("Error: Cannot divide by zero!");
         return;
     }
-    const result = a / b;
-    saveToHistory(a, b, "/", result);
+
+    const result = numbers[0] / numbers[1];
+    saveToHistory(numbers[0], numbers[1], "/", result);
     console.log("Result:", result);
 }
 
-// 4) Display the history
+// 5) Display the calculation history
 function showHistory() {
     if (calculationHistory.length === 0) {
         console.log("No calculations yet.");
@@ -64,11 +88,14 @@ function showHistory() {
     console.log("===========================");
 }
 
-// 5) Test the calculator
+// 6) Test the calculator
 add(10, 5);
 subtract(20, 8);
 multiply(4, 3);
 divide(30, 5);
+divide(5, 0);   // test divide by zero
+add("abc", 3);  // test invalid input
 
-// show history
+// show all history
 showHistory();
+
